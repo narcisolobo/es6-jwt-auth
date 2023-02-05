@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { model, Schema } = mongoose;
-import bcrypt from 'bcrypt';
 import uniqueValidator from 'mongoose-unique-validator';
+import { generateSalt, hashPassword } from '../../functions/bcrypt-functions.js';
 const EMAIL_REGEX = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/);
 
 const userSchema = new Schema(
@@ -29,7 +29,7 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-/* 
+/*
   We don't want to save the 'confirm password' field
   in the database. Mongoose lets you create a virtual
   field for those cases.
@@ -59,18 +59,25 @@ userSchema.pre('validate', function (next) {
   next();
 });
 
-/* 
+/*
   Before saving the user in the database,
   hash the password.
 */
-userSchema.pre('save', function (next) {
-  bcrypt.hash(this.password, 10).then((hash) => {
-    this.password = hash;
-    next();
-  });
+userSchema.pre('save', async function (next) {
+  const user = this;
+  if (this.isModified('password') || this.isNew) {
+    try {
+      const salt = await generateSalt();
+      const hash = await hashPassword(user.password, salt);
+      user.password = hash;
+      next();
+    } catch (error) {
+      return next(error);
+    }
+  }
 });
 
-/* 
+/*
   Mongoose unique validator treats a unique field
   as a validation error.
 */

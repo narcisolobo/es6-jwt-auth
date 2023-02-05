@@ -21,10 +21,10 @@ server.on('listening', onListening);
 /** Normalize port into number, string, or false. */
 function normalizePort(val) {
   const port = parseInt(val, 10);
-  
+
   if (isNaN(port)) return val;
   if (port > 0) return port;
-  
+
   return false;
 }
 
@@ -50,7 +50,7 @@ function onError(error) {
 }
 
 /** Event listener for HTTP server "listening" event. */
-import { brightBlue } from '../config/chalk-config.js';
+import { brightBlue } from '../functions/chalk-functions.js';
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === 'string'

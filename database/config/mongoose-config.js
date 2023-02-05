@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { brightYellow, brightMagenta } from '../../config/chalk-config.js';
+import { brightYellow, brightMagenta } from '../../functions/chalk-functions.js';
 
 import dotenv from 'dotenv';
 dotenv.config();
