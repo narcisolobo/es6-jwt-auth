@@ -5,7 +5,7 @@ async function createUser(user) {
   try {
     return await User.create(user);
   } catch (err) {
-    throw new DatabaseError(err);
+    throw new DatabaseError(err, err);
   }
 }
 

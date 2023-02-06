@@ -1,6 +1,6 @@
 class DatabaseError extends Error {
-  constructor(err) {
-    super(err);
+  constructor(err, message) {
+    super(message);
     this.errors = err.errors;
   }
 }
