@@ -1,6 +1,6 @@
 import { registerUser } from '../services/user-services.js';
 
-async function postUsers(req, res) {
+async function postUsersRegister(req, res) {
   try {
     const user = await registerUser(req.body);
     res.status(201).json(user);
@@ -9,4 +9,4 @@ async function postUsers(req, res) {
   }
 }
 
-export { postUsers };
+export { postUsersRegister };
